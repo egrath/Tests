@@ -5,6 +5,10 @@ namespace Test001
 {
     internal sealed class Workbook
     {
+        // Events
+        public delegate void CursorPositionChangedDelegate(object sender, Point newPosition);
+        public event CursorPositionChangedDelegate CursorPositionChanged;
+
         private char[,] m_Data;
 
         private Point m_CursorPosition;
@@ -30,6 +34,9 @@ namespace Test001
             CursorPosition = new Point(x, y);
         }
 
+        /// <summary>
+        /// Setzen der Cursorposition im Workbook
+        /// </summary>
         public Point CursorPosition
         {
             get
@@ -39,7 +46,25 @@ namespace Test001
 
             set
             {
-                m_CursorPosition = value;
+                bool changed = false;
+
+                if(value.X >= 0)
+                {
+                    m_CursorPosition.X = value.X;
+                    changed = true;
+                }
+
+                if(value.Y >= 0)
+                {
+                    m_CursorPosition.Y = value.Y;
+                    changed = true;
+                }
+
+                if(changed)
+                {
+                    if(CursorPositionChanged != null)
+                        CursorPositionChanged(this, m_CursorPosition);
+                }
             }
         }
 

@@ -12,10 +12,16 @@ namespace Test001
 {
     public partial class MainForm : Form
     {
+        private WorkbookCanvas m_Canvas;
+
         public MainForm()
         {
             InitializeComponent();
-            panelContent.Controls.Add(new WorkbookCanvas());
+
+            panelContent.Size = new Size(this.ClientSize.Width, this.ClientSize.Height - menuStrip1.Size.Height);
+
+            m_Canvas = new WorkbookCanvas();                        
+            panelContent.Controls.Add(m_Canvas);
         }
     }
 }
